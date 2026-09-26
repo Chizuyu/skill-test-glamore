@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Glamore - join as a merchant</title>
+    <style>
+        body {
+            background-color: #fadddd;
+        }
+
+        .btn-glamore {
+            background-color: #a64242;
+            color: #fff;
+        }
+
+        .btn-glamore:hover {
+            background-color: #803333;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body class="d-flex align-items-center justify-content-center min-vh-100 p-3">
+    <div class="card shadow-sm border-0 p-4" style="width: 420px; max-width: 100%; border-radius: 12px;">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold" style="color: #a64242;">Glamore Merchant</h3>
+            <p class="text-muted small">Daftarkan Salon / Klinik Kecantikan anda</p>
+        </div>
+
+        <form id="merchantForm" novalidate>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nama Salon / Klinik</label>
+                <input type="text" class="form-control" id="salonName" placeholder="Contoh: Glamore Salon">
+                <div id="salonNameErr" class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nama Pemilik (Owner)</label>
+                <input type="text" class="form-control" id="ownerName" placeholder="Nama Pemilik Salon / Klinik">
+                <div id="ownerNameErr" class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Email Address</label>
+                <input type="email" class="form-control" id="emailName" placeholder="nama@email.com">
+                <div id="emailNameErr" class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nomor Whatsapp</label>
+                <input type="text" class="form-control" id="waName" placeholder="098726572846">
+                <div id="waNameErr" class="invalid-feedback"></div>
+            </div>
+            <button type="submit" class="btn btn-glamore w-100 fw-semibold mt-2">Daftarkan Sekarang</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('merchantForm');
+
+        function setError(name, err, msg) {
+            document.getElementById(name).classList.add('is-invalid');
+            document.getElementById(err).innerText = msg;
+        }
+        
+        function clearError(name, err) {
+            document.getElementById(name).classList.remove('is-invalid');
+            document.getElementById(err).innerText = '';
+        }
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            let isValid = true;
+            
+            const salon = document.getElementById('salonName').value.trim();
+            const owner = document.getElementById('ownerName').value.trim();
+            const email = document.getElementById('emailName').value.trim();
+            const wa = document.getElementById('waName').value.trim();
+
+            if(!salon){
+                setError('salonName', 'salonNameErr', 'Nama Salon wajib diisi!');
+                isValid = false;
+            }else{
+                clearError('salonName', 'salonNameErr');
+            }
+
+            if(!owner){
+                setError('ownerName', 'ownerNameErr', 'Nama Pemilik wajib diisi!');
+                isValid = false;
+            }else{
+                clearError('ownerName', 'ownerNameErr');
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if(!email){
+                setError('emailName', 'emailNameErr', 'Alamat Email wajib diisi!');
+                isValid = false;
+            }else if(!emailRegex.test(email)){
+                setError('emailName', 'emailNameErr', 'Format email tidak sesuai! (harus ada @ dan domain .)');
+                isValid = false;
+            }
+            else{
+                clearError('emailName', 'emailNameErr');
+            }
+            
+            const numRegex = /^[0-9]+$/;
+            if(!wa){
+                setError('waName', 'waNameErr', 'Nomor Whatsapp wajib diisi!');
+                isValid = false;
+            }else if(!numRegex.test(wa)){
+                setError('waName', 'waNameErr', 'Nomor Whatsapp hanya boleh angka!');
+                isValid = false;
+            }else if(wa.length < 10){
+                setError('waName', 'waNameErr', 'Nomor Whatsapp minimal 10 digit!');
+                isValid = false;
+            }
+            else{
+                clearError('waName', 'waNameErr');
+            }
+
+            if(isValid){
+                alert('Data Berhasil dikirim');
+                form.reset();
+            }
+        })
+    </script>
+</body>
+
+</html>
